@@ -7,7 +7,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     setCentralWidget(ui->stackedWidget);
-    ui->mess2->hide();
 }
 
 MainWindow::~MainWindow()
@@ -34,15 +33,7 @@ void MainWindow::on_input_textChanged(const QString &str)
             ui->input->backspace();
             n++;
         }
-    QString result = "";
-    if (n == 0)
-            result = "Молодец! Ты не допустил ни одной ошибки. Так держать!";
-    else
-        result.append("У тебя");
-        result.append(n);
-        result.append("ошибок.");
-    ui->mess2->setText(result);
-    ui->mess2->show();
+
     }
 }
 

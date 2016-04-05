@@ -30,7 +30,7 @@
      </size>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="main_page">
      <widget class="QPushButton" name="start">
@@ -61,19 +61,6 @@
      </widget>
     </widget>
     <widget class="QWidget" name="page_2">
-     <widget class="QLabel" name="mess2">
-      <property name="geometry">
-       <rect>
-        <x>30</x>
-        <y>150</y>
-        <width>351</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
      <widget class="QPushButton" name="pushButton">
       <property name="geometry">
        <rect>
@@ -91,7 +78,7 @@
       <property name="geometry">
        <rect>
         <x>90</x>
-        <y>10</y>
+        <y>40</y>
         <width>231</width>
         <height>121</height>
        </rect>
