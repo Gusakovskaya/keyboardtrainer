@@ -15,6 +15,15 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+private slots:
+    void on_exit_clicked();
+
+    void on_start_clicked();
+
+    void on_input_textChanged(const QString &arg1);
+
+    void on_pushButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 };
