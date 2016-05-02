@@ -24,8 +24,13 @@ private slots:
 
     void on_pushButton_clicked();
 
+    void LineEditingFinished();
+signals:
+    void EndLineEditing();
+
 private:
     Ui::MainWindow *ui;
+    int mistake;
 };
 
 #endif // MAINWINDOW_H
