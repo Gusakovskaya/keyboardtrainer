@@ -22,15 +22,21 @@ private slots:
 
     void on_input_textChanged(const QString &arg1);
 
-    void on_pushButton_clicked();
+    void on_menuButton_clicked();
 
     void LineEditingFinished();
+    void on_retryButton_clicked();
+
+    void on_nextLevelButton_clicked();
+
 signals:
     void EndLineEditing();
+    void retry();
 
 private:
     Ui::MainWindow *ui;
     int mistake;
+    int NuberOfLess;
 };
 
 #endif // MAINWINDOW_H

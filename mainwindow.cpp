@@ -5,6 +5,9 @@
 #include <QDir>
 #include <QTextStream>
 #include <qstring.h>
+#include <QTime>
+
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -15,8 +18,9 @@ MainWindow::MainWindow(QWidget *parent) :
     setCentralWidget(ui->stackedWidget);
     ui->mess2->hide();
     this->mistake = 0;
-
+    this->NuberOfLess = 1;
     connect(this, SIGNAL(EndLineEditing()), this, SLOT(LineEditingFinished()));
+    connect(this, SIGNAL(retry()), this, SLOT(on_start_clicked()));
 }
 
 MainWindow::~MainWindow()
@@ -34,14 +38,24 @@ void MainWindow::on_start_clicked()
     ui->stackedWidget->setCurrentIndex(1);
     this->mistake = 0;
     ui->input->setEnabled(true);
-    QFile fLess("less1.txt");
+    ui->input->clear();
+    ui->nextLevelButton->setDisabled(true);
+    QTime midnight(0,0,0);
+    qsrand(midnight.secsTo(QTime::currentTime()));
+    QString less = "less" + QString::number(this->NuberOfLess) + ".txt";
+    QFile fLess(less);
     if(!fLess.open(QFile::ReadOnly | QFile ::Text))
     {
         QMessageBox::information(this,"Error","Path not correct!");
         return;
     }
     QTextStream stream(&fLess);
-    QString buffer = stream.readAll();
+    QString buffer = stream.readLine();
+    for (int i = 0; i < qrand() % 4; i++)
+    {
+        buffer = stream.readLine();
+        stream.flush();
+    }
     ui->task->setText(buffer);
     ui->mess2->hide();
 
@@ -52,7 +66,8 @@ void MainWindow::on_start_clicked()
 void MainWindow::on_input_textChanged(const QString &str)
 {
     QString task = ui->task->text();
-    for (int i = 0; i < str.size(); i++)
+    int i;
+    for (i = 0; i < str.size(); i++)
     {
         if (task[i] != str[i])
         {
@@ -60,14 +75,13 @@ void MainWindow::on_input_textChanged(const QString &str)
             this->mistake++;
         }
     }
-    if (task.size() == str.size())
+    if ((task.size() == str.size()) && (str[i-1] == task[i-1]))
         emit EndLineEditing();
 }
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_menuButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(0);
-    ui->input->clear();
 }
 
 void MainWindow::LineEditingFinished()
@@ -78,6 +92,18 @@ void MainWindow::LineEditingFinished()
         ui->mess2->setText(QString("you have %1 mistakes").arg(QString::number(this->mistake)));
         ui->mess2->show();
         ui->input->setDisabled(true);
-
+    if (this->mistake <= 20)
+        ui->nextLevelButton->setEnabled(true);
 }
 
+
+void MainWindow::on_retryButton_clicked()
+{
+    emit retry();
+}
+
+void MainWindow::on_nextLevelButton_clicked()
+{
+    this->NuberOfLess++;
+    emit retry();
+}

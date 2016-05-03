@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>407</width>
+    <height>304</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -65,17 +65,17 @@
      </widget>
     </widget>
     <widget class="QWidget" name="page_2">
-     <widget class="QPushButton" name="pushButton">
+     <widget class="QPushButton" name="menuButton">
       <property name="geometry">
        <rect>
-        <x>150</x>
+        <x>30</x>
         <y>210</y>
         <width>99</width>
         <height>27</height>
        </rect>
       </property>
       <property name="text">
-       <string>&amp;Назад</string>
+       <string>&amp;Меню</string>
       </property>
      </widget>
      <widget class="QWidget" name="layoutWidget">
@@ -130,6 +130,32 @@
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="retryButton">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>210</y>
+        <width>99</width>
+        <height>27</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>&amp;Заново</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="nextLevelButton">
+      <property name="geometry">
+       <rect>
+        <x>280</x>
+        <y>210</y>
+        <width>99</width>
+        <height>27</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>&amp;Дальше</string>
       </property>
      </widget>
     </widget>
