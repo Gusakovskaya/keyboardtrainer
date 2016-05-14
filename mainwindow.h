@@ -2,11 +2,17 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
+#include <QKeyEvent>
+#include <QLinkedList>
 
 namespace Ui {
 class MainWindow;
 }
+
+typedef struct TUsers{
+    QString name;
+    int level;
+}TUsers;
 
 class MainWindow : public QMainWindow
 {
@@ -16,6 +22,18 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    void keyPressEvent(QKeyEvent*e);
+    void keyReleaseEvent(QKeyEvent * e);
+    void CreateListOfUsers();
+    void ShowListOfUsers();
+    void WriteListToFile();
+
+private:
+    Ui::MainWindow *ui;
+    int mistake;
+    int NuberOfLess;
+    QString user;
+    QLinkedList<TUsers> listOfUser;
 
 
 private slots:
@@ -41,22 +59,15 @@ private slots:
 
     void on_inputName_textChanged(const QString &arg1);
 
-    void on_pushButton_clicked();
+    void on_deleteName_clicked();
 
-    void on_pushButton_2_clicked();
+    void on_choose_clicked();
 
 signals:
     void EndLineEditing();
     void retry();
     void menu();
 
-private:
-    Ui::MainWindow *ui;
-    int mistake;
-    int NuberOfLess;
-    QString user;
-public:
-    bool flag;
 };
 
 #endif // MAINWINDOW_H
