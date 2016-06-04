@@ -4,20 +4,22 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT    += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
 TARGET = Keyboardtrainer
 TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \    
+    keyboard1.cpp \
+    listOfUser.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \    
+    keyboard1.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui  
 
 RESOURCES += \
     Images.qrc

@@ -1,1 +1,11 @@
-<RCC/>
+<RCC>
+    <qresource prefix="/Images">
+        <file>Adium.png</file>
+    </qresource>
+    <qresource prefix="/sounds">
+        <file>GlsShutdn.wav</file>
+        <file>SCV Exit Windows.wav</file>
+        <file>Tnkslp.wav</file>
+        <file>Untitled.mp3</file>
+    </qresource>
+</RCC>
