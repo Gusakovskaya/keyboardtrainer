@@ -21,7 +21,7 @@ void MainWindow:: CreateListOfUsers(void)
         user.name = list[0];
         user.ruslevel = list[1].toInt();
         user.englevel = list[2].toInt();
-        this->listOfUser.append(user);
+        listOfUser.append(user);
         stream.flush();
     }
 
@@ -32,12 +32,13 @@ void MainWindow:: CreateListOfUsers(void)
 void MainWindow:: ShowListOfUsers()
 {
     CreateListOfUsers();
-    QLinkedList<TUsers>::iterator iuser = this->listOfUser.begin();
-    this->user = iuser->name;
-    this->NumberOfLessRus = iuser->ruslevel;
-    this->NumberOfLessEng = iuser->englevel;
+    QLinkedList<TUsers>::iterator iuser = listOfUser.begin();
+    user = iuser->name;
+    numberOfLessRus = iuser->ruslevel;
+    numberOfLessEng = iuser->englevel;
+    numberOfLess = numberOfLessRus;
 
-    for (iuser = this->listOfUser.begin(); iuser != this->listOfUser.end(); iuser++)
+    for (iuser = listOfUser.begin(); iuser != listOfUser.end(); iuser++)
         ui->listWidget->addItem(iuser->name);
 }
 
@@ -50,10 +51,10 @@ void MainWindow:: WriteListToFile()
     }
 
     QTextStream stream(&fuser);
-    QLinkedList<TUsers>::iterator iuser = this->listOfUser.begin();
-    for (iuser = this->listOfUser.begin(); iuser != this->listOfUser.end(); iuser++)
-        stream << (*iuser).name << ' ' << (*iuser).ruslevel << ' '
-               << (*iuser).englevel << '\n';
+    QLinkedList<TUsers>::iterator iuser = listOfUser.begin();
+    for (iuser = listOfUser.begin(); iuser != listOfUser.end(); iuser++)
+        stream << iuser->name << ' ' << iuser->ruslevel << ' '
+               << iuser->englevel << '\n';
 
     fuser.flush();
     fuser.close();
@@ -61,13 +62,18 @@ void MainWindow:: WriteListToFile()
 
 void MainWindow::SaveListToFile()
 {
-    QLinkedList<TUsers>::iterator iuser = this->listOfUser.begin();
+      if (lenguage == 0 && (numberOfLess > numberOfLessRus))
+        numberOfLessRus = numberOfLess;
+      if (lenguage == 1 && (numberOfLess > numberOfLessEng))
+        numberOfLessEng = numberOfLess;
+
+    QLinkedList<TUsers>::iterator iuser = listOfUser.begin();
     if (user != "King") {
-        for (iuser = this->listOfUser.begin(); iuser != this->listOfUser.end(); iuser++)
-            if ((*iuser).name == user) {
-                (*iuser).ruslevel = this->NumberOfLessRus;
-                (*iuser).englevel = this->NumberOfLessEng;
+        for (iuser = listOfUser.begin(); iuser != listOfUser.end(); iuser++)
+            if (iuser->name == user) {
+                iuser->ruslevel = numberOfLessRus;
+                iuser->englevel = numberOfLessEng;
             }
-        this->WriteListToFile();
+        WriteListToFile();
     }
 }

@@ -61,8 +61,9 @@ private:
     bool firstSymbol;
     bool keyboardLayout; // true - была смена раскладки клавиатуры
     int mistake;
-    int NumberOfLessRus;
-    int NumberOfLessEng;
+    int numberOfLess;
+    int numberOfLessRus;
+    int numberOfLessEng;
     int lenguage; // русский 0, англ 1
     QTime time;
     QTimer *timer;
@@ -73,7 +74,9 @@ private:
     QString user;
     QLinkedList<TUsers> listOfUser;
     Keyboard *myKeyboard;
-
+    enum pageOfStackWidget{
+        pageMain, pageUser, pagePlay, pageSettings, pageLevels
+    };
 
 private slots:
     void on_exit_clicked();
@@ -112,12 +115,24 @@ private slots:
 
     void on_RegimeComboBox_activated(int index);
 
+    void on_startLevel_clicked();
+
+    void on_goToMenu_clicked();
+
+    void on_level1_clicked();
+
+    void on_level2_clicked();
+
+    void on_level3_clicked();
+
 signals:
     void EndLineEditing();
 
     void retry();
 
     void menu();
+
+    void tolevel();
 };
 
 #endif // MAINWINDOW_H

@@ -503,59 +503,74 @@
     </size>
    </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>4</number>
    </property>
-   <widget class="QWidget" name="main_page">
+   <widget class="QWidget" name="mainPage">
     <property name="minimumSize">
      <size>
       <width>0</width>
       <height>268</height>
      </size>
     </property>
-     <layout class="QGridLayout" name="LayoutOfPage0">
-      <item row="4" column="0">
-       <widget class="QPushButton" name="exit">
-        <property name="text">
-         <string>&amp;Выход</string>
-        </property>
-        <property name="flat">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QPushButton" name="start">
-        <property name="text">
-         <string>&amp;Начать</string>
-        </property>
-        <property name="flat">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QPushButton" name="settings">
-        <property name="text">
-         <string>Настройки</string>
-        </property>
-        <property name="flat">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QPushButton" name="changeNameButton">
-        <property name="text">
-         <string>Привет, Незнакомец))</string>
-        </property>
-        <property name="flat">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-     </layout>
+    <layout class="QGridLayout" name="LayoutOfPage0">
+     <item row="5" column="0">
+      <widget class="QPushButton" name="exit">
+       <property name="text">
+        <string>&amp;Выход</string>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QPushButton" name="start">
+       <property name="text">
+        <string>&amp;Начать</string>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QPushButton" name="settings">
+       <property name="text">
+        <string>Настройки</string>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QPushButton" name="changeNameButton">
+       <property name="text">
+        <string>Привет, Незнакомец))</string>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QPushButton" name="teaching">
+       <property name="text">
+        <string>Обучение</string>
+       </property>
+       <property name="icon">
+        <iconset theme="jhgjgjhghgj">
+         <normaloff/>
+        </iconset>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
-   <widget class="QWidget" name="page">
+   <widget class="QWidget" name="usersPage">
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -574,7 +589,7 @@
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout">
            <item>
-            <widget class="QLabel" name="label">
+            <widget class="QLabel" name="pleaseInputName">
              <property name="text">
               <string>Введите имя:</string>
              </property>
@@ -638,213 +653,271 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="page_2">
+   <widget class="QWidget" name="playPage">
     <property name="autoFillBackground">
      <bool>false</bool>
     </property>
-     <layout class="QVBoxLayout" name="LayoutOfPage2">
-      <item>
-       <layout class="QVBoxLayout" name="inputLayout">
-        <item>
-         <widget class="QLabel" name="mess1">
-          <property name="text">
-           <string>Введите следующую строку:</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="task">
-          <property name="layoutDirection">
-           <enum>Qt::LeftToRight</enum>
-          </property>
-          <property name="text">
-           <string>ао оо ао оаоа а о</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item alignment="Qt::AlignRight">
-         <widget class="QTimeEdit" name="TimeDisplay">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="focusPolicy">
-           <enum>Qt::NoFocus</enum>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background-color: rgb(42, 255, 213);</string>
-          </property>
-          <property name="inputMethodHints">
-           <set>Qt::ImhPreferNumbers</set>
-          </property>
-          <property name="frame">
-           <bool>false</bool>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-          <property name="buttonSymbols">
-           <enum>QAbstractSpinBox::NoButtons</enum>
-          </property>
-          <property name="accelerated">
-           <bool>false</bool>
-          </property>
-          <property name="keyboardTracking">
-           <bool>false</bool>
-          </property>
-          <property name="currentSection">
-           <enum>QDateTimeEdit::HourSection</enum>
-          </property>
-          <property name="displayFormat">
-           <string>H:mm:ss</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="input">
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <widget class="QLabel" name="mess2">
-        <property name="text">
-         <string/>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="LessButtonsLayout">
-        <item>
-         <widget class="QPushButton" name="menuButton">
-          <property name="text">
-           <string>&amp;Меню</string>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="retryButton">
-          <property name="text">
-           <string>&amp;Заново</string>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_2">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="nextLevelButton">
-          <property name="text">
-           <string>&amp;Дальше</string>
-          </property>
-          <property name="autoDefault">
-           <bool>true</bool>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-     </layout>
+    <layout class="QVBoxLayout" name="LayoutOfPage2">
+     <item>
+      <layout class="QVBoxLayout" name="inputLayout">
+       <item>
+        <widget class="QLabel" name="mess1">
+         <property name="text">
+          <string>Введите следующую строку:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="task">
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>ао оо ао оаоа а о</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item alignment="Qt::AlignRight">
+        <widget class="QTimeEdit" name="TimeDisplay">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(42, 255, 213);</string>
+         </property>
+         <property name="inputMethodHints">
+          <set>Qt::ImhPreferNumbers</set>
+         </property>
+         <property name="frame">
+          <bool>false</bool>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+         <property name="buttonSymbols">
+          <enum>QAbstractSpinBox::NoButtons</enum>
+         </property>
+         <property name="accelerated">
+          <bool>false</bool>
+         </property>
+         <property name="keyboardTracking">
+          <bool>false</bool>
+         </property>
+         <property name="currentSection">
+          <enum>QDateTimeEdit::HourSection</enum>
+         </property>
+         <property name="displayFormat">
+          <string>H:mm:ss</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="input">
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QLabel" name="mess2">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="LessButtonsLayout">
+       <item>
+        <widget class="QPushButton" name="menuButton">
+         <property name="text">
+          <string>&amp;Меню</string>
+         </property>
+         <property name="flat">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="retryButton">
+         <property name="text">
+          <string>&amp;Заново</string>
+         </property>
+         <property name="flat">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="nextLevelButton">
+         <property name="text">
+          <string>&amp;Дальше</string>
+         </property>
+         <property name="autoDefault">
+          <bool>true</bool>
+         </property>
+         <property name="flat">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
    </widget>
-   <widget class="QWidget" name="page_3">
-     <layout class="QVBoxLayout" name="LayoutOfPage3">
-      <item>
-       <layout class="QGridLayout" name="gridLayout">
-        <item row="0" column="0">
-         <widget class="QLabel" name="LabelLanguage">
-          <property name="text">
-           <string>Язык</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QComboBox" name="LanguageComboBox">
-          <property name="frame">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="RegimeLabel">
-          <property name="text">
-           <string>Режим</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QComboBox" name="RegimeComboBox"/>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <widget class="QPushButton" name="ToMenuFromSettings">
-        <property name="text">
-         <string>Ок</string>
-        </property>
-        <property name="flat">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-     </layout>
+   <widget class="QWidget" name="settingsPage">
+    <layout class="QVBoxLayout" name="LayoutOfPage3">
+     <item>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="0" column="0">
+        <widget class="QLabel" name="LabelLanguage">
+         <property name="text">
+          <string>Язык</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QComboBox" name="LanguageComboBox">
+         <property name="frame">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="RegimeLabel">
+         <property name="text">
+          <string>Режим</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QComboBox" name="RegimeComboBox"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QPushButton" name="ToMenuFromSettings">
+       <property name="text">
+        <string>Ок</string>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="levelsPage">
+    <property name="minimumSize">
+     <size>
+      <width>0</width>
+      <height>268</height>
+     </size>
+    </property>
+    <layout class="QGridLayout" name="pagelayoutOfLevels">
+     <item row="1" column="0">
+      <widget class="QPushButton" name="goToMenu">
+       <property name="text">
+        <string>Меню</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0" colspan="2">
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <widget class="QPushButton" name="level1">
+         <property name="text">
+          <string>Урок 1</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QPushButton" name="level2">
+         <property name="text">
+          <string>Урок 2</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" colspan="2">
+        <widget class="QPushButton" name="level3">
+         <property name="text">
+          <string>Урок 3</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="1" column="1">
+      <widget class="QPushButton" name="startLevel">
+       <property name="text">
+        <string>Поехали!</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="pageTeaching">
+    <property name="minimumSize">
+     <size>
+      <width>0</width>
+      <height>268</height>
+     </size>
+    </property>
+    <layout class="QGridLayout" name="LayoutOfPageTeaching"/>
    </widget>
   </widget>
  </widget>

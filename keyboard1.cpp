@@ -38,7 +38,7 @@ void Keyboard::Initialize()
     mainLayout->addLayout(middleRow);
     mainLayout->addLayout(lowRow);
     mainLayout->addLayout(space);
-    QList<int> keys = this->Key().uniqueKeys();
+    QList<int> keys = Key().uniqueKeys();
     ColorKeyButtons(keys, "ivory");
     keys << key1 << key2 << Q << A << Z << Period << Colon << Comma << P
          << ParenLeft << ParenRight << key0 << Minus << Equal;
@@ -56,13 +56,13 @@ void Keyboard::Initialize()
 void Keyboard::ColorKeyButtons(QList<int> &keys,QString color)
 {
     for (int i = 0; i < keys.size(); i++) {
-        this->Key()[keys[i]].bot->setStyleSheet("background-color:" + color +
+        Key()[keys[i]].bot->setStyleSheet("background-color:" + color +
                                                 "; border-radius: 2px; "
                                                 "font: italic 70% georgia, serif;"
                                                 "border: 4px double" + color + ";");
-        this->Key()[keys[i]].bot->setSizePolicy(QSizePolicy::Preferred,
+        Key()[keys[i]].bot->setSizePolicy(QSizePolicy::Preferred,
                                                 QSizePolicy::Preferred);
-        this->Key()[keys[i]].bot->setFocusPolicy(Qt::NoFocus);
+        Key()[keys[i]].bot->setFocusPolicy(Qt::NoFocus);
     }
     keys.clear();
 }
@@ -124,16 +124,16 @@ void Keyboard::CreateSpecialKeyButtons()
 
 void Keyboard::ChangeToEng()
 {
-    QList<int> keys = this->Key().uniqueKeys();
+    QList<int> keys = Key().uniqueKeys();
     for (int i = 0; i < keys.size(); i++)
-        this->Key()[keys[i]].bot->setText(this->Key()[keys[i]].en);
+        Key()[keys[i]].bot->setText(Key()[keys[i]].en);
 }
 
 void Keyboard::ChangeToRus()
 {
-    QList<int> keys = this->Key().uniqueKeys();
+    QList<int> keys = Key().uniqueKeys();
     for (int i = 0; i < keys.size(); i++)
-        this->Key()[keys[i]].bot->setText(this->Key()[keys[i]].rus);
+        Key()[keys[i]].bot->setText(Key()[keys[i]].rus);
 }
 
 QMap<int, KeyLetter> Keyboard::Key()
