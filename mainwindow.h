@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QSound>
 #include <keyboard1.h>
 #include <QApplication>
 #include <QMainWindow>
@@ -44,8 +45,12 @@ public:
     void CreateListOfUsers();
     void ShowListOfUsers();
     void WriteListToFile();
+    void SaveListToFile();
     void EndOfGame();
-    void ErrorMemory();
+    void SetTask();
+    void SetStartMessage();
+    void CheckKeyboardLayout(QString keyText);
+    void BackSpacePressed();
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event);
@@ -53,22 +58,21 @@ protected:
 private:
     Ui::MainWindow *ui;
     int position;
-    bool flagPos; // true- еще не увеличивали position
     bool firstSymbol;
-    bool keyboardLayout;
+    bool keyboardLayout; // true - была смена раскладки клавиатуры
     int mistake;
     int NumberOfLessRus;
     int NumberOfLessEng;
-    int lenguage;
+    int lenguage; // русский 0, англ 1
     QTime time;
     QTimer *timer;
     QString sheetWhichPressed;
     QString oldSheet;
     int oldScanfCode;
-    int regime;// русский 0, англ 1
+    int regime; // простой 0, сложный 1
     QString user;
     QLinkedList<TUsers> listOfUser;
-    Keyboard *mykeyboard;
+    Keyboard *myKeyboard;
 
 
 private slots:
@@ -110,7 +114,9 @@ private slots:
 
 signals:
     void EndLineEditing();
+
     void retry();
+
     void menu();
 };
 

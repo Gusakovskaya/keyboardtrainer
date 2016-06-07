@@ -10,27 +10,26 @@ MainWindow::MainWindow(QWidget *parent) :
     font.setItalic(true);
     font.setPixelSize(20);
     this->setFont(font);
+
+    timer = new QTimer(this);
+    time = QTime(0,0,0,0);
+
     lenguage = 0;
     regime = 0;
     oldScanfCode = 0;
-    timer = new QTimer(this);
-    if (timer == NULL)
-        ErrorMemory();
-    time = QTime(0,0,0,0);
+    sheetWhichPressed = "";
+    oldSheet = "";
+    myKeyboard = new Keyboard();
+    myKeyboard->Initialize();
+    myKeyboard->ChangeToRus();
+    ShowListOfUsers();
+    ui->mess2->hide();
     ui->LanguageComboBox->addItem("Русский");
     ui->LanguageComboBox->addItem("Английский");
     ui->RegimeComboBox->addItem("Лентяй");
     ui->RegimeComboBox->addItem("Самостоятельный");
     ui->stackedWidget->setCurrentIndex(0);
-    sheetWhichPressed = "";
-    oldSheet = "";
-    ui->mess2->hide();
-    mykeyboard = new Keyboard();
-    if (mykeyboard == NULL)
-        ErrorMemory();
-    mykeyboard->ChangeToRus();
-    ui->LayoutOfPage2->insertLayout(2, mykeyboard->MainLayout());
-    ShowListOfUsers();
+    ui->LayoutOfPage2->insertLayout(2, myKeyboard->MainLayout());
     ui->changeNameButton->setText("Привет, " + QString(this->user) + "!");
 
     connect(this, SIGNAL(EndLineEditing()), this, SLOT(LineEditingFinished()));
@@ -41,6 +40,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    delete myKeyboard;
     delete ui;
 }
 
@@ -50,28 +50,51 @@ void MainWindow::DisplayTime()
     ui->TimeDisplay->setTime(time);
 }
 
-void MainWindow::on_exit_clicked()
-{
-    close();
-}
-
 void MainWindow::on_start_clicked()
 {
     time = QTime(0,0,0,0);
     keyboardLayout = false;
-
-    ui->TimeDisplay->setTime(time);
-    ui->stackedWidget->setCurrentIndex(2);
     this->mistake = 0;
     this->position = 0;
-    ui->input->setEnabled(true);
+    ui->mess2->hide();
     ui->input->clear();
+    ui->input->setEnabled(true);
+    ui->input->installEventFilter(this);
+    ui->TimeDisplay->setTime(time);
+    ui->stackedWidget->setCurrentIndex(2);
     ui->nextLevelButton->setDisabled(true);
     if (!sheetWhichPressed.isEmpty())
-        mykeyboard->Key()[oldScanfCode].bot->setStyleSheet(sheetWhichPressed);
-    ui->input->installEventFilter(this);
+        myKeyboard->Key()[oldScanfCode].bot->setStyleSheet(sheetWhichPressed);
+    SetTask();
+    SetStartMessage();
+    ui->input->setFocus();
+    firstSymbol = true;
+}
+
+void MainWindow::SetStartMessage()
+{
+    QMessageBox *startLevelBox = new QMessageBox(this);
+    startLevelBox->setWindowTitle("Печатка");
+    if (lenguage == 0){
+        startLevelBox->setText(QString(tr("<h1><i><center><font color = teal>Уровень %1. </font></i></h1>")
+                                       .arg(QString::number(NumberOfLessRus))));
+        startLevelBox->setInformativeText("<h4><center><font color = royalblue>Поставте пальцы в "
+                                          "исходную позицию: ФЫВА ОЛДЖ</font></h4>");
+    }
+    else {
+        startLevelBox->setText(QString(tr("<h1><i><center><font color = teal>Уровень %1. </font></i></h1>")
+                                       .arg(QString::number(NumberOfLessEng))));
+        startLevelBox->setInformativeText("<h4><center><font color = royalblue>Поставте пальцы в "
+                                          "исходную позицию: ASDF JKL;</font></h4>");
+    }
+    startLevelBox->exec();
+}
+
+void MainWindow::SetTask()
+{
     QTime midnight(0,0,0);
     qsrand(midnight.secsTo(QTime::currentTime()));
+
     QString less;
     if (lenguage == 0)
         less = "less" + QString::number(this->NumberOfLessRus) + ".txt";
@@ -87,34 +110,15 @@ void MainWindow::on_start_clicked()
     QString buffer = stream.readLine();
     int n;
     if (lenguage == 0)
-        n = qrand() % 4;
+        n = qrand() % TASKNUM;
     else
-        n = (qrand() % 4) + 5;
+        n = (qrand() % TASKNUM) + TASKNUM;
     for (int i = 0; i < n; i++) {
         buffer = stream.readLine();
         stream.flush();
     }
     ui->task->setText(buffer);
-    ui->mess2->hide();
 
-    QMessageBox *startLevelBox = new QMessageBox(this);
-    if (startLevelBox == NULL)
-        ErrorMemory();
-    startLevelBox->setWindowTitle("Печатка");
-    if (lenguage == 0){
-        startLevelBox->setText(QString(tr("<h1><i><center><font color = teal>Уровень %1. </font></i></h1>")
-                                       .arg(QString::number(NumberOfLessRus))));
-        startLevelBox->setInformativeText("<h4><center><font color = royalblue>Поставте пальцы в "
-                                          "исходную позицию: ФЫВА ОЛДЖ</font></h4>");
-    } else {
-        startLevelBox->setText(QString(tr("<h1><i><center><font color = teal>Уровень %1. </font></i></h1>")
-                                       .arg(QString::number(NumberOfLessEng))));
-        startLevelBox->setInformativeText("<h4><center><font color = royalblue>Поставте пальцы в "
-                                          "исходную позицию: ASDF JKL;</font></h4>");
-    }
-    startLevelBox->exec();
-    ui->input->setFocus();
-    firstSymbol = true;
     fLess.flush();
     fLess.close();
 }
@@ -122,9 +126,7 @@ void MainWindow::on_start_clicked()
 void MainWindow::on_input_textChanged(const QString &str)
 {
     QString task = ui->task->text();
-    int i;
 
-    flagPos = true;
     if (keyboardLayout){
         ui->input->backspace();
         keyboardLayout = false;
@@ -134,37 +136,29 @@ void MainWindow::on_input_textChanged(const QString &str)
         timer->start(1000);
         firstSymbol = false;
     }
-    for (i = 0; i < str.size(); i++) {
-        if (task[i] != str[i]) {
-            this->mistake++;
-            if (regime == 0){
-                ui->input->backspace();
-                if (position != 0)
-                position = position - 2;
-            }
-            else {
-                ui->input->setStyleSheet(" color: red; ");
-                if (position == 0 )
-                    position = 0;
-                else
-                    position--;
-            }
-            break;
+    if (str == "")
+        return;
+    if (task.indexOf(str) != 0) {
+        this->mistake++;
+        if (regime == 0){
+            ui->input->backspace();
+            position--;
         }
-        else {
-            ui->input->setStyleSheet(" color: mediumspringgreen; ");
-            if (flagPos) {
-                position++;
-                flagPos = false;
-            }
-        }
+        else
+            ui->input->setStyleSheet(" color: red; ");
     }
+    else {
+        ui->input->setStyleSheet(" color: mediumspringgreen; ");
+        position++;
+    }
+
     if (position == ui->task->text().length())
         emit EndLineEditing();
 }
 
 void MainWindow::on_menuButton_clicked()
 {
+    ui->changeNameButton->setText("Привет, " + QString(this->user) + "!");
     ui->stackedWidget->setCurrentIndex(0);
 }
 
@@ -172,14 +166,14 @@ void MainWindow::LineEditingFinished()
 {
     timer->stop();
     int speed = ui->task->text().length() * 60 / time.second();
-    mykeyboard->Key()[oldScanfCode].bot->setStyleSheet(sheetWhichPressed);
+    myKeyboard->Key()[oldScanfCode].bot->setStyleSheet(sheetWhichPressed);
     if (this->mistake == 0)
         ui->mess2->setText(QString("НИЧОСИ! Ниодной ошибки.%1 знаков в минуту.").arg(QString::number(speed)));
     else
         ui->mess2->setText(QString("%1 ошибок и %2 знаков в минуту.").arg(QString::number(this->mistake),
                                                                           QString::number(speed)));
-        ui->mess2->show();
-        ui->input->setDisabled(true);
+    ui->mess2->show();
+    ui->input->setDisabled(true);
     if (this->mistake <= 5) {
         ui->nextLevelButton->setEnabled(true);
         ui->nextLevelButton->setFocus();
@@ -203,7 +197,7 @@ void MainWindow::on_nextLevelButton_clicked()
         else {
             this->NumberOfLessRus = 1;
             EndOfGame();
-            ui->stackedWidget->setCurrentIndex(0);
+            emit menu();
             return;
         }
     }
@@ -213,20 +207,12 @@ void MainWindow::on_nextLevelButton_clicked()
         else {
             this->NumberOfLessEng = 1;
             EndOfGame();
-            ui->stackedWidget->setCurrentIndex(0);
+            emit menu();
             return;
         }
     }
-    QLinkedList<TUsers>::iterator iuser = this->listOfUser.begin();
-    if (user != "King")
-    {
-        for (iuser = this->listOfUser.begin(); iuser != this->listOfUser.end(); iuser++)
-            if ((*iuser).name == user) {
-                (*iuser).ruslevel = this->NumberOfLessRus;
-                (*iuser).englevel = this->NumberOfLessEng;
-            }
-        this->WriteListToFile();
-    }
+
+    SaveListToFile();
 
     emit retry();
 }
@@ -239,7 +225,6 @@ void MainWindow::on_changeNameButton_clicked()
 
 void MainWindow::on_returnToMenu_clicked()
 {
-    ui->changeNameButton->setText("Привет, " + QString(this->user) + "!");
     emit menu();
 }
 
@@ -275,6 +260,8 @@ void MainWindow::on_deleteName_clicked()
     for(int i = 0; i < ui->listWidget->count(); i++) {
         if (ui->listWidget->item(i)->isSelected()) {
             username = ui->listWidget->item(i)->text();
+            if (username == "King")
+                return;
             QLinkedList<TUsers>::iterator iuser = this->listOfUser.begin();
             for (iuser = this->listOfUser.begin(); iuser != this->listOfUser.end(); iuser++) {
                 if ((*iuser).name == username) {
@@ -302,6 +289,7 @@ void MainWindow::on_choose_clicked()
                     this->user = (*iuser).name;
                     this->NumberOfLessRus = (*iuser).ruslevel;
                     this->NumberOfLessEng = (*iuser).englevel;
+                    emit menu();
                 }
             break;
         }
@@ -314,40 +302,24 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
         if (event->type() == QEvent::KeyPress) {
             QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
             int i = keyEvent->nativeScanCode();
-
-            if ( ((10 <= i) && (i <= 36)) || ((38 <= i) && (i <= 62))
-                 || (i == 65) || (i == 66)) {
+            if ( ((myKeyboard->key1 <= i) && (i <= myKeyboard->Enter))
+                 || ((myKeyboard->A <= i) && (i <= myKeyboard->ShiftRight))
+                 || (i == myKeyboard->Space) || (i == myKeyboard->CapsLock)) {
                 if (oldScanfCode != 0)
-                    mykeyboard->Key()[oldScanfCode].bot->setStyleSheet(oldSheet);
-                sheetWhichPressed = mykeyboard->Key()[i].bot->styleSheet();
+                    myKeyboard->Key()[oldScanfCode].bot->setStyleSheet(oldSheet);
+                sheetWhichPressed = myKeyboard->Key()[i].bot->styleSheet();
                 if (keyEvent->text() == QString(ui->task->text().at(position)))
-                    mykeyboard->Key()[i].bot->setStyleSheet(sheetWhichPressed +
+                    myKeyboard->Key()[i].bot->setStyleSheet(sheetWhichPressed +
                                                             "border: 2px double green;");
                 else {
-                    if (mykeyboard->Key()[i].en == QString(ui->task->text().at(position))
-                            || mykeyboard->Key()[i].rus == QString(ui->task->text().at(position))) {
-                        QMessageBox::information(this,"Печатка","Смените раскладку!");
-                        keyboardLayout = true;
-                    }
-                    mykeyboard->Key()[i].bot->setStyleSheet(sheetWhichPressed +
+                    CheckKeyboardLayout(keyEvent->text());
+                    myKeyboard->Key()[i].bot->setStyleSheet(sheetWhichPressed +
                                                             "border: 2px double red;");
                 }
                 oldScanfCode = i;
                 oldSheet = sheetWhichPressed;
-                if (i == 22) {
-                    if (regime == 0){
-                        if (position == 1)
-                            position = 0;
-                        else if (position != 0)
-                            position = position - 2;
-                    }
-                    else {
-                        if (position != 0 &&
-                                ui->input->text()[ui->input->text().size() - 2]
-                                    == ui->task->text()[position - 1])
-                            position--;
-                    }
-                }
+                if (i == myKeyboard->BackSpase)
+                    BackSpacePressed();
             }
         }
         return false;
@@ -355,31 +327,47 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
         return QMainWindow::eventFilter(obj, event);
 }
 
-void MainWindow::on_ToMenuFromSettings_clicked()
+void MainWindow:: BackSpacePressed()
 {
-    emit menu();
+    if (regime == 0){
+        if (position == 1)
+            position = 0;
+        else if (position != 0)
+            position = position - 2;
+    }
+    else {
+        if (position != 0 &&
+                ui->input->text()[ui->input->text().size() - 2]
+                    == ui->task->text()[position - 1]) {
+            if (position != 0 && ui->input->text()[ui->input->text().size() - 1]
+                    == ui->task->text()[position - 1])
+                position -= 2;
+            else
+                position--;
+        }
+    }
 }
 
-void MainWindow::on_settings_clicked()
+void MainWindow::CheckKeyboardLayout(QString keyText)
 {
-    ui->stackedWidget->setCurrentIndex(3);
+    for (int j = 0; j < myKeyboard->rus.size(); j++)
+    if ((keyText == QString(myKeyboard->rus[j]) && lenguage == 1)
+            || (keyText == QString(myKeyboard->eng[j]) && lenguage == 0)) {
+        QMessageBox::information(this,"Печатка","Смените раскладку!");
+        keyboardLayout = true;
+    }
 }
 
 void MainWindow::on_LanguageComboBox_activated(int index)
 {
-    if (index == 1){
-        mykeyboard->ChangeToEng();
+    if (index == 1) {
+        myKeyboard->ChangeToEng();
         lenguage = 1;
     }
-    else{
-        mykeyboard->ChangeToRus();
+    else {
+        myKeyboard->ChangeToRus();
         lenguage = 0;
     }
-}
-
-void MainWindow::on_RegimeComboBox_activated(int index)
-{
-        regime = index;
 }
 
 void MainWindow::EndOfGame()
@@ -398,10 +386,22 @@ void MainWindow::EndOfGame()
     }
 }
 
-void MainWindow::ErrorMemory()
+void MainWindow::on_ToMenuFromSettings_clicked()
 {
-    QMessageBox::information(this, "Ошибка", "Не удалось выделить память");
-    mykeyboard->~Keyboard();
-    this->~MainWindow();
-    exit(0);
+    emit menu();
+}
+
+void MainWindow::on_settings_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(3);
+}
+
+void MainWindow::on_exit_clicked()
+{
+    close();
+}
+
+void MainWindow::on_RegimeComboBox_activated(int index)
+{
+    regime = index;
 }
