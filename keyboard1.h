@@ -35,7 +35,7 @@ public:
     QString rus;
     QString eng;
 
-    enum keys {
+    enum keys {   // перечисление сканкодов клавишь под Linux
         key1 = 10, key2, key3, key4, key5, key6, key7, key8, key9, key0,
         Minus, Equal, BackSpase,
         Tab, Q, W, E, R, T, Y, U, I, O, P, ParenLeft, ParenRight,

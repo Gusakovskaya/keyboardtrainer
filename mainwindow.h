@@ -29,10 +29,20 @@ namespace Ui {
 class MainWindow;
 }
 
+struct TLevel{
+    int numOfLevel;
+    int numOfMistake;
+    int time;
+};
+
 struct TUsers{
     QString name;
     int ruslevel;
     int englevel;
+    int rusWin; // 1 - прошел все уровни
+    int engWin;
+    QLinkedList<TLevel> levelsRus;
+    QLinkedList<TLevel> levelsEng;
 };
 
 class MainWindow : public QMainWindow
@@ -43,14 +53,17 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void CreateListOfUsers();
+    void ReadUser(QTextStream& stream);
     void ShowListOfUsers();
     void WriteListToFile();
+    void SaveLevelResult(QLinkedList<TLevel>& levels);
     void SaveListToFile();
     void EndOfGame();
     void SetTask();
     void SetStartMessage();
     void CheckKeyboardLayout(QString keyText);
     void BackSpacePressed();
+
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event);
@@ -60,6 +73,7 @@ private:
     int position;
     bool firstSymbol;
     bool keyboardLayout; // true - была смена раскладки клавиатуры
+    bool gameOver;
     int mistake;
     int numberOfLess;
     int numberOfLessRus;

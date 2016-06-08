@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
     oldScanfCode = 0;
     sheetWhichPressed = "";
     oldSheet = "";
+    gameOver = false;
     myKeyboard = new Keyboard();
     myKeyboard->Initialize();
     myKeyboard->ChangeToRus();
@@ -215,8 +216,8 @@ void MainWindow::on_nextLevelButton_clicked()
     if (numberOfLess != MAXLEVEL)
         numberOfLess++;
     else {
+        gameOver = true;
         SaveListToFile();
-        numberOfLessRus = 1;
         EndOfGame();
         emit tolevel();
         return;
@@ -243,6 +244,8 @@ void MainWindow::on_create_clicked()
     TUsers user;
     user.ruslevel = 1;
     user.englevel = 1;
+    user.rusWin = 0;
+    user.engWin = 0;
     user.name = ui->inputName->text();
     QLinkedList<TUsers>::iterator iuser = listOfUser.begin();
     for (iuser = listOfUser.begin(); iuser != listOfUser.end(); iuser++)
@@ -289,6 +292,8 @@ void MainWindow::on_deleteName_clicked()
 void MainWindow::on_choose_clicked()
 {
     QString username;
+
+    gameOver = false;
 
     for(int i = 0; i < ui->listWidget->count(); i++) {
         if (ui->listWidget->item(i)->isSelected()) {
@@ -435,6 +440,7 @@ void MainWindow::on_level1_clicked()
 void MainWindow::on_level2_clicked()
 {
     numberOfLess = 2;
+    gameOver = false;
 }
 
 void MainWindow::on_level3_clicked()
